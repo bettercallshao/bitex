@@ -50,6 +50,11 @@ table {
 tr {
     text-align: center;
 }
+footer {
+    position: fixed;
+    bottom: 10px;
+    right: 30px;
+}
 .adjuster {
   display: flex;
   justify-content: center;
@@ -79,6 +84,9 @@ tr {
 {{table}}
 </div>
 </div>
+<footer>
+<a href="https://github.com/timlyrics/bitex">github:timlyrics/bitex</a>
+</footer>
 </body>
 </html>
 """
