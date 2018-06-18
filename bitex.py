@@ -15,6 +15,7 @@ def make_table(l):
     return '<table>' + ''.join(l) + '</table>'
 
 def get_digits(n):
+    n = max(n, 2)
     return int(math.ceil(math.log(n, 2) / UNITLEN) * UNITLEN)
 
 def truth_digit(n, d):
@@ -92,12 +93,16 @@ footer {
 """
     return template.replace('{{short}}', short).replace('{{table}}', table)
 
-if 'num' in Hook['params']:
-  try:
-    num = abs(int(Hook['params']['num'], 0))
-  except:
-    num = 0xdeadbeef
-else:
-  num = 0xdeadbeef
+def run(num_str):
+    try:
+        num = abs(int(num_str, 0))
+    except:
+        num = 0xdeadbeef
 
-print(get_html(get_short(num), get_table(num)))
+    print(get_html(get_short(num), get_table(num)))
+
+if __name__ == '__main__':
+    if 'num' in Hook['params']:
+        run(Hook['params']['num'])
+    else:
+        run('')
