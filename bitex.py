@@ -16,7 +16,7 @@ def make_table(l):
 
 def get_digits(n):
     n = max(n, 2)
-    return int(math.ceil(math.log(n, 2) / UNITLEN) * UNITLEN)
+    return int(math.ceil(math.log(0.1 + n, 2) / UNITLEN) * UNITLEN)
 
 def truth_digit(n, d):
     return (n >> d) & 1 > 0
@@ -62,14 +62,18 @@ footer {
 }
 .green,
 .grey {
-    height: 25px;
-    width: 25px;
-    background-color: #5c5;
+    height: 23px;
+    width: 23px;
     border-radius: 50%;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #5c5;
+    background-color: #5c5;
     display: inline-block;
 }
 .grey {
-    background-color: #999;
+    border-color: #999;
+    background-color: #fff;
 }
 </style>
 </head>
