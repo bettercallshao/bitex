@@ -7,4 +7,4 @@ assert(bitex.get_digits(256) == 16)
 assert(bitex.get_digits(257) == 16)
 assert(bitex.get_digits(65536) == 24)
 
-bitex.run(sys.argv[1])
+bitex.run(sys.argv[1], sys.argv[2])

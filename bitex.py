@@ -5,8 +5,8 @@ UNITLEN = 8
 def make_header(n):
     return '<th>b%02d</th>' % n
 
-def make_indicator(b):
-    return '<td><span class="%s"></span></td>' % ('green' if b else 'grey')
+def make_indicator(d, b):
+    return '<td><button type="submit" name="bit" value="%d" class="%s"></span></td>' % (d, ('green' if b else 'grey'))
 
 def make_row(l):
     return '<tr>' + ''.join(l) + '</tr>'
@@ -30,20 +30,24 @@ def segment_list(l):
 def get_table(n):
     l = get_digits(n)
     header_lists = segment_list([make_header(b) for b in count_backward(l)])
-    indica_lists = segment_list([make_indicator(truth_digit(n, b)) for b in count_backward(l)])
+    indica_lists = segment_list([make_indicator(b, truth_digit(n, b)) for b in count_backward(l)])
     return  make_table([make_row(header_lists[i]) + make_row(indica_lists[i]) for i in range(len(header_lists))])
 
 def get_short(n):
     return '<h1>0x%x is %d</h1>' % (n, n)
 
-def get_html(short, table):
+def get_html(input_, short, table):
     template = """
 <!DOCTYPE html>
 <html>
 <head>
 <style>
-body {
+body,
+button {
     font-family: "Liberation Mono";
+}
+button {
+    font-size: 12pt;
 }
 table {
     border-spacing: 10px;
@@ -82,11 +86,12 @@ footer {
 <div>
 <form method="POST" action="/timlyrics/bitex/">
 <p> Hex (prefix with 0x) or decimal </p>
-<input type="text" name="num"/>
-<input type="submit" value="BitEx!"/>
-</form>
+<input type="text" name="num" value="{{input}}"/>
+<button type="submit">BitEx!</button>
 {{short}}
+<p> Click on indicators to toggle </p>
 {{table}}
+</form>
 </div>
 </div>
 <footer>
@@ -95,18 +100,33 @@ footer {
 </body>
 </html>
 """
-    return template.replace('{{short}}', short).replace('{{table}}', table)
+    return (template.replace('{{input}}', input_)
+                    .replace('{{short}}', short)
+                    .replace('{{table}}', table))
 
-def run(num_str):
+def get_proper_input(num_str, bit_str):
+    convert = lambda x: abs(int(x, 0))
     try:
-        num = abs(int(num_str, 0))
+        num = convert(num_str)
     except:
         num = 0xdeadbeef
+    try:
+        bit = convert(bit_str)
+        mask = 1 << bit
+    except:
+        mask = 0
+    return num ^ mask
 
-    print(get_html(get_short(num), get_table(num)))
+def run(num_str, bit_str):
+    num = get_proper_input(num_str, bit_str)
+    print(get_html(hex(num), get_short(num), get_table(num)))
 
 if __name__ == '__main__':
+    num_str = ''
+    bit_str = ''
     if 'num' in Hook['params']:
-        run(Hook['params']['num'])
-    else:
-        run('')
+        num_str = Hook['params']['num']
+    if 'bit' in Hook['params']:
+        bit_str = Hook['params']['bit']
+
+    run(num_str, bit_str)
