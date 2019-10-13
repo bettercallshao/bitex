@@ -84,7 +84,7 @@ footer {
 <body>
 <div class="adjuster">
 <div>
-<form method="POST" action="/timlyrics/bitex/">
+<form method="POST" action="/bettercallshao/bitex/">
 <p> Hex (prefix with 0x) or decimal </p>
 <input type="text" name="num" value="{{input}}"/>
 <button type="submit">BitEx!</button>
@@ -95,7 +95,7 @@ footer {
 </div>
 </div>
 <footer>
-<a href="https://github.com/timlyrics/bitex">github:timlyrics/bitex</a>
+<a href="https://github.com/bettercallshao/bitex">github:bettercallshao/bitex</a>
 </footer>
 </body>
 </html>

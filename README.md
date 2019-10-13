@@ -1,7 +1,7 @@
 # BitEx
 Expand a number into binary bits and visualize.
 
-https://hook.io/timlyrics/bitex/
+https://hook.io/bettercallshao/bitex/
 
 ![BitEx Demo](https://i.imgur.com/SMm6Vtb.gif "Logo Title Text 1")
 
